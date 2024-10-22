@@ -84,6 +84,7 @@ func (s *server) Subscribe(req *pb.SubscribeRequest, stream pb.ChittyChat_Subscr
 }
 
 func (s *server) broadcast(message *pb.BroadcastMessage) {
+	s.lamportTime++
 	log.Printf("Broadcasting message: %s at Lamport time %d", message.Message, s.lamportTime)
 	for participantId, ch := range s.participants {
 		select {
