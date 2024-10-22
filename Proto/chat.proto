@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package chittychat;
+
+option go_package = "./proto";
+
+service ChittyChat {
+    rpc Join(JoinRequest) returns (JoinResponse);
+    rpc Leave(LeaveRequest) returns (LeaveResponse);
+    rpc Publish(PublishRequest) returns (PublishResponse);
+    rpc Subscribe(SubscribeRequest) returns (stream BroadcastMessage);
+}
+
+message JoinRequest {
+    string participant_id = 1;
+}
+
+message JoinResponse {
+    string message = 1;
+    int64 lamport_time = 2;
+}
+
+message LeaveRequest {
+    string participant_id = 1;
+}
+
+message LeaveResponse {
+    string message = 1;
+    int64 lamport_time = 2;
+}
+
+message PublishRequest {
+    string participant_id = 1;
+    string message = 2;
+}
+
+message PublishResponse {
+    string message = 1;
+    int64 lamport_time = 2;
+}
+
+message SubscribeRequest {
+    string participant_id = 1;
+}
+
+message BroadcastMessage {
+    string message = 1;
+    int64 lamport_time = 2;
+}

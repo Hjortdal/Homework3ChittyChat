@@ -1,0 +1,25 @@
+2024/10/22 12:15:11 server listening at [::]:50051
+2024/10/22 12:15:16 Join request received from participant: Frederik
+2024/10/22 12:15:16 Broadcasting join message: Participant Frederik joined Chitty-Chat
+2024/10/22 12:15:16 Broadcasting message to all participants: Participant Frederik joined Chitty-Chat
+2024/10/22 12:15:16 Sending message to participant Frederik
+2024/10/22 12:15:16 Join request processed for participant: Frederik
+2024/10/22 12:15:16 Subscribe request received from participant: Frederik
+2024/10/22 12:15:16 Sending message to participant Frederik: Participant Frederik joined Chitty-Chat
+2024/10/22 12:15:20 Join request received from participant: Adam
+2024/10/22 12:15:20 Broadcasting join message: Participant Adam joined Chitty-Chat
+2024/10/22 12:15:20 Broadcasting message to all participants: Participant Adam joined Chitty-Chat
+2024/10/22 12:15:20 Sending message to participant Frederik
+2024/10/22 12:15:20 Sending message to participant Adam
+2024/10/22 12:15:20 Join request processed for participant: Adam
+2024/10/22 12:15:20 Sending message to participant Frederik: Participant Adam joined Chitty-Chat
+2024/10/22 12:15:20 Subscribe request received from participant: Adam
+2024/10/22 12:15:20 Sending message to participant Adam: Participant Adam joined Chitty-Chat
+2024/10/22 12:15:25 Publish request received from participant: Adam
+2024/10/22 12:15:25 Broadcasting message: Adam: GG WP ADAM ER WEAK
+2024/10/22 12:15:25 Broadcasting message to all participants: Adam: GG WP ADAM ER WEAK
+2024/10/22 12:15:25 Sending message to participant Frederik
+2024/10/22 12:15:25 Sending message to participant Adam
+2024/10/22 12:15:25 Publish request processed for participant: Adam
+2024/10/22 12:15:25 Sending message to participant Adam: Adam: GG WP ADAM ER WEAK
+2024/10/22 12:15:25 Sending message to participant Frederik: Adam: GG WP ADAM ER WEAK
