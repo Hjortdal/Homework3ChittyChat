@@ -1,25 +1,47 @@
-2024/10/22 12:15:11 server listening at [::]:50051
-2024/10/22 12:15:16 Join request received from participant: Frederik
-2024/10/22 12:15:16 Broadcasting join message: Participant Frederik joined Chitty-Chat
-2024/10/22 12:15:16 Broadcasting message to all participants: Participant Frederik joined Chitty-Chat
-2024/10/22 12:15:16 Sending message to participant Frederik
-2024/10/22 12:15:16 Join request processed for participant: Frederik
-2024/10/22 12:15:16 Subscribe request received from participant: Frederik
-2024/10/22 12:15:16 Sending message to participant Frederik: Participant Frederik joined Chitty-Chat
-2024/10/22 12:15:20 Join request received from participant: Adam
-2024/10/22 12:15:20 Broadcasting join message: Participant Adam joined Chitty-Chat
-2024/10/22 12:15:20 Broadcasting message to all participants: Participant Adam joined Chitty-Chat
-2024/10/22 12:15:20 Sending message to participant Frederik
-2024/10/22 12:15:20 Sending message to participant Adam
-2024/10/22 12:15:20 Join request processed for participant: Adam
-2024/10/22 12:15:20 Sending message to participant Frederik: Participant Adam joined Chitty-Chat
-2024/10/22 12:15:20 Subscribe request received from participant: Adam
-2024/10/22 12:15:20 Sending message to participant Adam: Participant Adam joined Chitty-Chat
-2024/10/22 12:15:25 Publish request received from participant: Adam
-2024/10/22 12:15:25 Broadcasting message: Adam: GG WP ADAM ER WEAK
-2024/10/22 12:15:25 Broadcasting message to all participants: Adam: GG WP ADAM ER WEAK
-2024/10/22 12:15:25 Sending message to participant Frederik
-2024/10/22 12:15:25 Sending message to participant Adam
-2024/10/22 12:15:25 Publish request processed for participant: Adam
-2024/10/22 12:15:25 Sending message to participant Adam: Adam: GG WP ADAM ER WEAK
-2024/10/22 12:15:25 Sending message to participant Frederik: Adam: GG WP ADAM ER WEAK
+
+2024/10/22 12:56:47 Server listening at [::]:50051
+2024/10/22 12:56:51 Join request from Frederik at Lamport time 1
+2024/10/22 12:56:51 Broadcasting message: Participant Frederik joined Chitty-Chat at Lamport time 1
+2024/10/22 12:56:51 Message sent to Frederik at Lamport time 1
+2024/10/22 12:56:51 Subscribe request from Frederik at Lamport time 1
+2024/10/22 12:56:55 Join request from Adam at Lamport time 2
+2024/10/22 12:56:55 Broadcasting message: Participant Adam joined Chitty-Chat at Lamport time 2
+2024/10/22 12:56:55 Message sent to Frederik at Lamport time 2
+2024/10/22 12:56:55 Message sent to Adam at Lamport time 2
+2024/10/22 12:56:55 Subscribe request from Adam at Lamport time 2
+2024/10/22 12:57:03 Publish request from Frederik at Lamport time 3
+2024/10/22 12:57:03 Broadcasting message: Frederik: Hej Adam, hvornår kommer David? at Lamport time 3
+2024/10/22 12:57:03 Message sent to Frederik at Lamport time 3
+2024/10/22 12:57:03 Message sent to Adam at Lamport time 3
+2024/10/22 12:57:26 Publish request from Adam at Lamport time 4
+2024/10/22 12:57:26 Broadcasting message: Adam: Jeg ved det ikke men kan vi snakke om Dennis' rizz? at Lamport time 4
+2024/10/22 12:57:26 Message sent to Frederik at Lamport time 4
+2024/10/22 12:57:26 Message sent to Adam at Lamport time 4
+2024/10/22 12:57:42 Join request from David at Lamport time 5
+2024/10/22 12:57:42 Broadcasting message: Participant David joined Chitty-Chat at Lamport time 5
+2024/10/22 12:57:42 Message sent to Frederik at Lamport time 5
+2024/10/22 12:57:42 Message sent to Adam at Lamport time 5
+2024/10/22 12:57:42 Message sent to David at Lamport time 5
+2024/10/22 12:57:42 Subscribe request from David at Lamport time 5
+2024/10/22 12:57:51 Publish request from David at Lamport time 6
+2024/10/22 12:57:51 Broadcasting message: David: Hørte jeg noget om Dennis? at Lamport time 6
+2024/10/22 12:57:51 Message sent to Adam at Lamport time 6
+2024/10/22 12:57:51 Message sent to David at Lamport time 6
+2024/10/22 12:57:51 Message sent to Frederik at Lamport time 6
+2024/10/22 12:58:08 Publish request from Frederik at Lamport time 7
+2024/10/22 12:58:08 Broadcasting message: Frederik: Wild at Lamport time 7
+2024/10/22 12:58:08 Message sent to Frederik at Lamport time 7
+2024/10/22 12:58:08 Message sent to Adam at Lamport time 7
+2024/10/22 12:58:08 Message sent to David at Lamport time 7
+2024/10/22 12:58:10 Leave request from Frederik at Lamport time 8
+2024/10/22 12:58:10 Broadcasting message: Participant Frederik left Chitty-Chat at Lamport time 8
+2024/10/22 12:58:10 Message sent to Adam at Lamport time 8
+2024/10/22 12:58:10 Message sent to David at Lamport time 8
+2024/10/22 12:58:14 Leave request from Adam at Lamport time 9
+2024/10/22 12:58:14 Broadcasting message: Participant Adam left Chitty-Chat at Lamport time 9
+2024/10/22 12:58:14 Message sent to David at Lamport time 9
+2024/10/22 12:58:18 Publish request from David at Lamport time 10
+2024/10/22 12:58:18 Broadcasting message: David: :( at Lamport time 10
+2024/10/22 12:58:18 Message sent to David at Lamport time 10
+2024/10/22 12:58:20 Leave request from David at Lamport time 11
+2024/10/22 12:58:20 Broadcasting message: Participant David left Chitty-Chat at Lamport time 11

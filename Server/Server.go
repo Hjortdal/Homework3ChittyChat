@@ -23,62 +23,55 @@ type server struct {
 }
 
 func (s *server) Join(ctx context.Context, req *pb.JoinRequest) (*pb.JoinResponse, error) {
-	log.Printf("Join request received from participant: %s", req.ParticipantId)
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	s.lamportTime++
+	log.Printf("Join request from %s at Lamport time %d", req.ParticipantId, s.lamportTime)
 	s.participants[req.ParticipantId] = make(chan *pb.BroadcastMessage, 100) // Buffered channel to avoid blocking
 	message := &pb.BroadcastMessage{
 		Message:     "Participant " + req.ParticipantId + " joined Chitty-Chat",
 		LamportTime: s.lamportTime,
 	}
-	log.Printf("Broadcasting join message: %s", message.Message)
 	s.broadcast(message)
-	log.Printf("Join request processed for participant: %s", req.ParticipantId)
 	return &pb.JoinResponse{Message: message.Message, LamportTime: s.lamportTime}, nil
 }
 
 func (s *server) Leave(ctx context.Context, req *pb.LeaveRequest) (*pb.LeaveResponse, error) {
-	log.Printf("Leave request received from participant: %s", req.ParticipantId)
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	s.lamportTime++
+	log.Printf("Leave request from %s at Lamport time %d", req.ParticipantId, s.lamportTime)
 	delete(s.participants, req.ParticipantId)
 	message := &pb.BroadcastMessage{
 		Message:     "Participant " + req.ParticipantId + " left Chitty-Chat",
 		LamportTime: s.lamportTime,
 	}
-	log.Printf("Broadcasting leave message: %s", message.Message)
 	s.broadcast(message)
-	log.Printf("Leave request processed for participant: %s", req.ParticipantId)
 	return &pb.LeaveResponse{Message: message.Message, LamportTime: s.lamportTime}, nil
 }
 
 func (s *server) Publish(ctx context.Context, req *pb.PublishRequest) (*pb.PublishResponse, error) {
-	log.Printf("Publish request received from participant: %s", req.ParticipantId)
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	s.lamportTime++
+	log.Printf("Publish request from %s at Lamport time %d", req.ParticipantId, s.lamportTime)
 	message := &pb.BroadcastMessage{
 		Message:     req.ParticipantId + ": " + req.Message,
 		LamportTime: s.lamportTime,
 	}
-	log.Printf("Broadcasting message: %s", message.Message)
 	s.broadcast(message)
-	log.Printf("Publish request processed for participant: %s", req.ParticipantId)
 	return &pb.PublishResponse{Message: message.Message, LamportTime: s.lamportTime}, nil
 }
 
 func (s *server) Subscribe(req *pb.SubscribeRequest, stream pb.ChittyChat_SubscribeServer) error {
 	participantId := req.ParticipantId
-	log.Printf("Subscribe request received from participant: %s", participantId)
+	log.Printf("Subscribe request from %s at Lamport time %d", participantId, s.lamportTime)
 	if _, ok := s.participants[participantId]; !ok {
 		return status.Errorf(codes.NotFound, "Participant %s not found", participantId)
 	}
 	for message := range s.participants[participantId] {
-		log.Printf("Sending message to participant %s: %s", participantId, message.Message)
 		if err := stream.Send(message); err != nil {
-			log.Printf("Error sending message to participant %s: %v", participantId, err)
+			log.Printf("Error sending message to %s: %v at Lamport time %d", participantId, err, s.lamportTime)
 			return err
 		}
 	}
@@ -86,10 +79,14 @@ func (s *server) Subscribe(req *pb.SubscribeRequest, stream pb.ChittyChat_Subscr
 }
 
 func (s *server) broadcast(message *pb.BroadcastMessage) {
-	log.Printf("Broadcasting message to all participants: %s", message.Message)
+	log.Printf("Broadcasting message: %s at Lamport time %d", message.Message, s.lamportTime)
 	for participantId, ch := range s.participants {
-		log.Printf("Sending message to participant %s", participantId)
-		ch <- message
+		select {
+		case ch <- message:
+			log.Printf("Message sent to %s at Lamport time %d", participantId, s.lamportTime)
+		default:
+			log.Printf("Message to %s dropped (channel full) at Lamport time %d", participantId, s.lamportTime)
+		}
 	}
 }
 
@@ -105,7 +102,8 @@ func main() {
 	multiWriter := io.MultiWriter(os.Stderr, logFile)
 	log.SetOutput(multiWriter)
 
-	lis, err := net.Listen("tcp", ":50051")
+	// Listen on all network interfaces
+	lis, err := net.Listen("tcp", "0.0.0.0:50051")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
@@ -113,7 +111,7 @@ func main() {
 	pb.RegisterChittyChatServer(s, &server{
 		participants: make(map[string]chan *pb.BroadcastMessage),
 	})
-	log.Printf("server listening at %v", lis.Addr())
+	log.Printf("Server listening at %v", lis.Addr())
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

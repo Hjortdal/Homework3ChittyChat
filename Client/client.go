@@ -5,6 +5,9 @@ import (
 	"context"
 	"log"
 	"os"
+	"os/signal"
+	"strings"
+	"syscall"
 
 	pb "homework3/Proto"
 
@@ -25,12 +28,12 @@ func main() {
 	c := pb.NewChittyChatClient(conn)
 	participantId := os.Args[1]
 
-	log.Println("Attempting to join the chat...")
+	log.Println("Joining the chat...")
 	joinResponse, err := c.Join(context.Background(), &pb.JoinRequest{ParticipantId: participantId})
 	if err != nil {
 		log.Fatalf("could not join: %v", err)
 	}
-	log.Printf("Join Response: %s at Lamport time %d", joinResponse.Message, joinResponse.LamportTime)
+	log.Printf("Joined chat: %s", joinResponse.Message)
 
 	go func() {
 		log.Println("Subscribing to chat messages...")
@@ -43,8 +46,21 @@ func main() {
 			if err != nil {
 				log.Fatalf("could not receive message: %v", err)
 			}
-			log.Printf("Broadcast: %s at Lamport time %d", message.Message, message.LamportTime)
+			log.Printf("Message: %s", message.Message)
 		}
+	}()
+
+	// Handle graceful shutdown
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+	go func() {
+		<-sigChan
+		log.Println("Leaving the chat...")
+		_, err := c.Leave(context.Background(), &pb.LeaveRequest{ParticipantId: participantId})
+		if err != nil {
+			log.Fatalf("could not leave: %v", err)
+		}
+		os.Exit(0)
 	}()
 
 	reader := bufio.NewReader(os.Stdin)
@@ -55,6 +71,11 @@ func main() {
 			log.Fatalf("failed to read input: %v", err)
 		}
 
+		input = strings.TrimSpace(input)
+		if input == "" {
+			continue
+		}
+
 		log.Println("Publishing message...")
 		publishResponse, err := c.Publish(context.Background(), &pb.PublishRequest{
 			ParticipantId: participantId,
@@ -63,6 +84,6 @@ func main() {
 		if err != nil {
 			log.Fatalf("could not publish: %v", err)
 		}
-		log.Printf("Publish Response: %s at Lamport time %d", publishResponse.Message, publishResponse.LamportTime)
+		log.Printf("Message published: %s", publishResponse.Message)
 	}
 }
