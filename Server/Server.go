@@ -70,10 +70,15 @@ func (s *server) Subscribe(req *pb.SubscribeRequest, stream pb.ChittyChat_Subscr
 		return status.Errorf(codes.NotFound, "Participant %s not found", participantId)
 	}
 	for message := range s.participants[participantId] {
+		s.mu.Lock()
+		s.lamportTime++
+		log.Printf("Sending message to %s: %s at Lamport time %d", participantId, message.Message, s.lamportTime)
 		if err := stream.Send(message); err != nil {
 			log.Printf("Error sending message to %s: %v at Lamport time %d", participantId, err, s.lamportTime)
+			s.mu.Unlock()
 			return err
 		}
+		s.mu.Unlock()
 	}
 	return nil
 }
