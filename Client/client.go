@@ -55,11 +55,12 @@ func main() {
 	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
 	go func() {
 		<-sigChan
-		log.Println("Leaving the chat...")
+		log.Printf("Participant %s is leaving the chat...", participantId)
 		_, err := c.Leave(context.Background(), &pb.LeaveRequest{ParticipantId: participantId})
 		if err != nil {
 			log.Fatalf("could not leave: %v", err)
 		}
+		log.Printf("Participant %s has left the chat.", participantId)
 		os.Exit(0)
 	}()
 
